@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20), (18,20), (19,20), (20,20)], 
                 2: [(2,1), (2,2), (2,3), (2,4), (2,5)], 
                 3:[], 
-                4:[(19,1), (19,2), (19,3), (19,4), (19,5), (19,17), (19,18), (19,19), (19,20)], 
-                5:[], 
+                4:[(19,1), (19,2), (19,3), (19,4), (19,5), (19,16), (19,17), (19,18), (19,19), (19,20)], 
+                5:[], # (6,17) 
                 6:[], 
                 7:[]}
 
@@ -43,6 +43,8 @@ def run_red_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
 
 def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
     if h_speed in {3,6,9}:
+        pass
+    elif v_speed in {1,3,5}:
         pass
     else:
         is_valid = True
@@ -95,5 +97,5 @@ if __name__ == '__main__':
     plt.colorbar()
     plt.xlabel('$x$')
     plt.ylabel('$y$')
-    plt.title(f"Grid location by frequency of drone inhabitation on day {day}")
+    plt.title(f"Schrodinger's blue and green drones on day {day}")
     plt.show()
