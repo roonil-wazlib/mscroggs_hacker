@@ -6,7 +6,7 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 3:[], 
                 4:[(19,1), (19,2), (19,3), (19,4), (19,5), (19,16), (19,17), (19,18), (19,19), (19,20)], 
                 5:[(6, 17), (2,1), (2,2), (2,3), (8,5)], # (6,17) 
-                6:[], 
+                6:[(8,2), (8,6), (12,6), (8,8), (8,14)], 
                 7:[]}
 
 # 
@@ -82,7 +82,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 6
+    day = 7
     grid = np.array([[0] * 20] * 20)
     for a in range(1,21):
         print(a)
@@ -93,6 +93,12 @@ if __name__ == '__main__':
                     # grid = run_red_simulator(*test, day, grid)
                     grid = run_green_simulator(*test, day, grid)
                     grid = run_blue_simulator(*test, day, grid)
+
+    ranked_list = sorted([(i, j) for i in range(1, 21) for j in range(1,21)], key=lambda x: grid[x[1]-1][x[0]-1], reverse=True)
+    print("Shoot at :")
+    for i in range(5):
+        print(ranked_list[i])
+        
     plt.imshow(grid, origin='lower', extent=[1,20,1,20], aspect='auto')
     plt.colorbar()
     plt.xlabel('$x$')
