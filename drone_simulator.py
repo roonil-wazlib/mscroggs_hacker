@@ -7,7 +7,10 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 4:[(19,1), (19,2), (19,3), (19,4), (19,5), (19,16), (19,17), (19,18), (19,19), (19,20)], 
                 5:[(6, 17), (2,1), (2,2), (2,3), (8,5)], # (6,17) 
                 6:[(8,2), (8,6), (12,6), (8,8), (8,14)], 
-                7:[]}
+                7:[(8,11), (8,7), (6,9), (6,11), (8,9), (8,13), (8, 19), (15,7), (15,11), (15,19), (19,7), (19,11), (8,15), (11,7), (15,5)],
+                8:[],
+                9:[],
+                10:[]}
 
 # 
 
@@ -46,6 +49,8 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
         pass
     elif v_speed in {1,3,5}:
         pass
+    elif v_speed in {4,7,6}:
+        pass
     else:
         is_valid = True
         for i in range(1, day):
@@ -82,7 +87,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 7
+    day = 8
     grid = np.array([[0] * 20] * 20)
     for a in range(1,21):
         print(a)
@@ -96,9 +101,9 @@ if __name__ == '__main__':
 
     ranked_list = sorted([(i, j) for i in range(1, 21) for j in range(1,21)], key=lambda x: grid[x[1]-1][x[0]-1], reverse=True)
     print("Shoot at :")
-    for i in range(5):
+    for i in range(15):
         print(ranked_list[i])
-        
+
     plt.imshow(grid, origin='lower', extent=[1,20,1,20], aspect='auto')
     plt.colorbar()
     plt.xlabel('$x$')
