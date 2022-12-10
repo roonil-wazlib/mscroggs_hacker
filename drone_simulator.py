@@ -9,7 +9,7 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 6:[(8,2), (8,6), (12,6), (8,8), (8,14)], 
                 7:[(8,11), (8,7), (6,9), (6,11), (8,9), (8,13), (8, 19), (15,7), (15,11), (15,19), (19,7), (19,11), (8,15), (11,7), (15,5)],
                 8:[(1,12), (9,12), (13,12), (1,8), (1,16), (1,18), (1,20), (5,12), (9,8), (17,12)],
-                9:[],
+                9:[(15,10), (15,14), (15,18), (3,14), (7,10), (7,14), (3,18), (7,14), (8,14), (11,14)],
                 10:[]}
 
 # 
@@ -72,6 +72,9 @@ def run_green_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
         if (x_pos, y_pos) in guessed_days[i]:
             is_valid = False
             break
+        if day == 7 and y_pos == 6:
+            is_valid = False
+            break
         x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
     if (x_pos, y_pos) in guessed_days[day]:
         is_valid = False
@@ -89,7 +92,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 9
+    day = 10
     grid = np.array([[0] * 20] * 20)
     for a in range(1,21):
         print(a)
@@ -110,5 +113,5 @@ if __name__ == '__main__':
     plt.colorbar()
     plt.xlabel('$x$')
     plt.ylabel('$y$')
-    plt.title(f"Schrodinger's blue and green drones on day {day}")
+    plt.title(f"Schrodinger's blue and orange drones on day {day}")
     plt.show()
