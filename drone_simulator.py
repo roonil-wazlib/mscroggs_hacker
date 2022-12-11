@@ -10,10 +10,9 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 7:[(8,11), (8,7), (6,9), (6,11), (8,9), (8,13), (8, 19), (15,7), (15,11), (15,19), (19,7), (19,11), (8,15), (11,7), (15,5)],
                 8:[(1,12), (9,12), (13,12), (1,8), (1,16), (1,18), (1,20), (5,12), (9,8), (17,12)],
                 9:[(15,10), (15,14), (15,18), (3,14), (7,10), (7,14), (3,18), (7,14), (8,14), (11,14)],
-                10:[]}
-
-# 
-
+                10:[(1,2), (2,4), (12,5), (12,15), (8,9), (8,19), (12,9), (12,19), (16,9)],
+                11:[(17,9), (17,19), (1,7), (1,9), (1,17), (1,19), (5,7), (5,17), (9,7), (9,17)],
+                12:[]}
 
 def plus_one_day(v_speed, h_speed, x_pos, y_pos):
     x = (x_pos + h_speed) % 20
@@ -59,6 +58,10 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             if (x_pos, y_pos) in guessed_days[i]:
                 is_valid = False
                 break
+            # test
+            if i == 8 and y_pos != 0:
+                is_valid = False
+                break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
         if (x_pos, y_pos) in guessed_days[day]:
             is_valid = False
@@ -66,7 +69,7 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             grid = update_grid(grid, x_pos, y_pos)
     return grid
 
-def run_green_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
+def run_orange_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
     is_valid = True
     for i in range(1, day):
         if (x_pos, y_pos) in guessed_days[i]:
@@ -92,7 +95,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 10
+    day = 12
     grid = np.array([[0] * 20] * 20)
     for a in range(1,21):
         print(a)
@@ -101,8 +104,8 @@ if __name__ == '__main__':
                 for d in range(1,21):
                     test = (a,b,c,d)
                     # grid = run_red_simulator(*test, day, grid)
-                    grid = run_green_simulator(*test, day, grid)
-                    grid = run_blue_simulator(*test, day, grid)
+                    grid = run_orange_simulator(*test, day, grid)
+                    #grid = run_blue_simulator(*test, day, grid)
 
     ranked_list = sorted([(i, j) for i in range(1, 21) for j in range(1,21)], key=lambda x: grid[x[1]-1][x[0]-1], reverse=True)
     print("Shoot at :")
@@ -113,5 +116,5 @@ if __name__ == '__main__':
     plt.colorbar()
     plt.xlabel('$x$')
     plt.ylabel('$y$')
-    plt.title(f"Schrodinger's blue and orange drones on day {day}")
+    plt.title(f"Orange drone on day {day}")
     plt.show()
