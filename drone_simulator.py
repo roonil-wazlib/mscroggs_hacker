@@ -12,7 +12,8 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 9:[(15,10), (15,14), (15,18), (3,14), (7,10), (7,14), (3,18), (7,14), (8,14), (11,14)],
                 10:[(1,2), (2,4), (12,5), (12,15), (8,9), (8,19), (12,9), (12,19), (16,9)],
                 11:[(17,9), (17,19), (1,7), (1,9), (1,17), (1,19), (5,7), (5,17), (9,7), (9,17), (17,7), (17,17), (5,1), (5,3), (5,5), (5,9), (5,11), (5,13), (5,15), (5,19)],
-                12:[]}
+                12:[(17,9), (19,3), (17,1), (17,2), (17,3), (17,5), (17,7)],
+                13:[]}
 
 def plus_one_day(v_speed, h_speed, x_pos, y_pos):
     x = (x_pos + h_speed) % 20
@@ -70,19 +71,22 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
     return grid
 
 def run_orange_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
-    is_valid = True
-    for i in range(1, day):
-        if (x_pos, y_pos) in guessed_days[i]:
+    if h_speed not in {1,3,4}:
+        pass
+    else:
+        is_valid = True
+        for i in range(1, day):
+            if (x_pos, y_pos) in guessed_days[i]:
+                is_valid = False
+                break
+            if day == 7 and y_pos == 6:
+                is_valid = False
+                break
+            x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
+        if (x_pos, y_pos) in guessed_days[day]:
             is_valid = False
-            break
-        if day == 7 and y_pos == 6:
-            is_valid = False
-            break
-        x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
-    if (x_pos, y_pos) in guessed_days[day]:
-        is_valid = False
-    if is_valid:
-        grid = update_grid(grid, x_pos, y_pos)
+        if is_valid:
+            grid = update_grid(grid, x_pos, y_pos)
     return grid
 
 def update_grid(grid, x_pos, y_pos):
@@ -95,7 +99,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 12
+    day = 13
     grid = np.array([[0] * 20] * 20)
     for a in range(1,21):
         print(a)
