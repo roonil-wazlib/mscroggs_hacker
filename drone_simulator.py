@@ -5,12 +5,12 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 2: [(2,1), (2,2), (2,3), (2,4), (2,5)], 
                 3:[], 
                 4:[(19,1), (19,2), (19,3), (19,4), (19,5), (19,16), (19,17), (19,18), (19,19), (19,20)], 
-                5:[(6, 17), (2,1), (2,2), (2,3), (8,5)], # (6,17) 
+                5:[(6,17), (2,1), (2,2), (2,3), (8,5)], # (6,17) 
                 6:[(8,2), (8,6), (12,6), (8,8), (8,14)], 
                 7:[(8,11), (8,7), (6,9), (6,11), (8,9), (8,13), (8, 19), (15,7), (15,11), (15,19), (19,7), (19,11), (8,15), (11,7), (15,5)],
                 8:[(1,12), (9,12), (13,12), (1,8), (1,16), (1,18), (1,20), (5,12), (9,8), (17,12)],
                 9:[(15,10), (15,14), (15,18), (3,14), (7,10), (7,14), (3,18), (7,14), (8,14), (11,14)],
-                10:[(1,2), (2,4), (12,5), (12,15), (8,9), (8,19), (12,9), (12,19), (16,9)],
+                10:[(1,2), (2,4), (12,5), (12,15), (8,9), (8,19), (12,9), (12,19), (16,9)], #(2,4)
                 11:[(17,9), (17,19), (1,7), (1,9), (1,17), (1,19), (5,7), (5,17), (9,7), (9,17), (17,7), (17,17), (5,1), (5,3), (5,5), (5,9), (5,11), (5,13), (5,15), (5,19)],
                 12:[(17,9), (19,3), (17,1), (17,2), (17,3), (17,5), (17,7)],
                 13:[]}
@@ -28,13 +28,17 @@ def run_red_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
     else:
         is_valid = True
         for i in range(1, day):
-            if (x_pos, y_pos) in guessed_days[i]:
-                is_valid = False
-                break
+            # if (x_pos, y_pos) in guessed_days[i]:
+            #     is_valid = False
+            #     break
             if i == 2 and x_pos != 5:
                 is_valid = False
                 break
             if i == 4 and (x_pos, y_pos) != (19, 16):
+                is_valid = False
+                break
+            # test
+            if i == 7 and y_pos != 4:
                 is_valid = False
                 break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
@@ -56,13 +60,15 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
     else:
         is_valid = True
         for i in range(1, day):
-            if (x_pos, y_pos) in guessed_days[i]:
+            # if (x_pos, y_pos) in guessed_days[i]:
+            #     is_valid = False
+            #     break
+            #test
+            if i == 7 and y_pos != 4:
                 is_valid = False
                 break
-            # test
-            if i == 8 and y_pos != 0:
+            if i == 10 and (x_pos, y_pos) != (2,4):
                 is_valid = False
-                break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
         if (x_pos, y_pos) in guessed_days[day]:
             is_valid = False
@@ -79,7 +85,11 @@ def run_orange_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             if (x_pos, y_pos) in guessed_days[i]:
                 is_valid = False
                 break
-            if day == 7 and y_pos == 6:
+            if i == 7 and y_pos == 6:
+                is_valid = False
+                break
+            # test
+            if i == 7 and y_pos != 4:
                 is_valid = False
                 break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
@@ -100,6 +110,8 @@ def update_grid(grid, x_pos, y_pos):
 
 if __name__ == '__main__':
     day = 13
+    for i in range(35):
+        print(i**2)
     grid = np.array([[0] * 20] * 20)
     for a in range(1,21):
         print(a)
@@ -107,7 +119,7 @@ if __name__ == '__main__':
             for c in range(1,21):
                 for d in range(1,21):
                     test = (a,b,c,d)
-                    # grid = run_red_simulator(*test, day, grid)
+                    #grid = run_red_simulator(*test, day, grid) #clue 13 is not red
                     grid = run_orange_simulator(*test, day, grid)
                     #grid = run_blue_simulator(*test, day, grid)
 
