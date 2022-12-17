@@ -16,7 +16,9 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 13:[],
                 14:[],
                 15:[],
-                16:[]}
+                16:[],
+                17:[],
+                18:[]}
 
 def plus_one_day(v_speed, h_speed, x_pos, y_pos):
     x = (x_pos + h_speed) % 20
@@ -54,6 +56,11 @@ def run_red_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             if i == 8 and y_pos != 0:
                 is_valid = False
                 break
+
+            # clue 17 is not red
+            # if i == 14 and x_pos != 4:
+            #     is_valid = False
+            #     break
 
             # clue 13 is not red
             # if i == 6 and y_pos != 4: 
@@ -102,6 +109,11 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
                 is_valid = False
                 break
 
+            # clue 17 is not blue
+            # if i == 14 and x_pos != 4:
+            #     is_valid = False
+            #     break
+
             # clue 10 is not blue
             # if i == 8 and y_pos != 0:
             #     is_valid = False
@@ -117,6 +129,9 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
 def run_orange_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
     # clue 12
     if h_speed not in {1,3,4}:
+        pass
+    # clue 16
+    if h_speed not in {3,2,4}:
         pass
     else:
         is_valid = True
@@ -139,6 +154,10 @@ def run_orange_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             if i == 6 and y_pos != 4:
                 is_valid = False
                 break
+            # test clue 17
+            if i == 14 and x_pos != 4:
+                is_valid = False
+                break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
         if is_valid:
             grid = update_grid(grid, x_pos, y_pos)
@@ -154,7 +173,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 15
+    day = 17
     for i in range(35):
         print(i**2)
     grid = np.array([[0] * 20] * 20)
