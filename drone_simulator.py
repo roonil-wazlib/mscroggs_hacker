@@ -18,7 +18,8 @@ guessed_days = {1: [(1,1), (1,2), (1,3), (1,4), (1,5), (12,12), (16,20), (17,20)
                 15:[],
                 16:[],
                 17:[],
-                18:[]}
+                18:[],
+                19:[]}
 
 def plus_one_day(v_speed, h_speed, x_pos, y_pos):
     x = (x_pos + h_speed) % 20
@@ -64,6 +65,16 @@ def run_red_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
 
             # clue 13 is not red
             # if i == 6 and y_pos != 4: 
+            #     is_valid = False
+            #     break
+
+            # clue 18 is not red
+            # if i == 15 and x_pos != 7:
+            #     is_valid = False
+            #     break
+
+            # clue 19 is not red
+            # if i == 16 and x_pos != 8:
             #     is_valid = False
             #     break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
@@ -119,6 +130,15 @@ def run_blue_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             #     is_valid = False
             #     break
 
+            # test clue 18 can not be blue as it is orange. invert
+            if i == 15 and x_pos == 7:
+                is_valid = False
+                break
+            # clue 19 is blue
+            if i == 16 and x_pos != 8:
+                is_valid = False
+                break
+
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
         if (x_pos, y_pos) in guessed_days[day]:
             is_valid = False
@@ -158,6 +178,14 @@ def run_orange_simulator(v_speed, h_speed, x_pos, y_pos, day, grid):
             if i == 14 and x_pos != 4:
                 is_valid = False
                 break
+            # test clue 18 must be orange
+            if i == 15 and x_pos != 7:
+                is_valid = False
+                break
+            # clue 19 is not orange
+            # if i == 16 and x_pos == 8:
+            #     is_valid = False
+            #     break
             x_pos, y_pos = plus_one_day(v_speed, h_speed, x_pos, y_pos)
         if is_valid:
             grid = update_grid(grid, x_pos, y_pos)
@@ -173,7 +201,7 @@ def update_grid(grid, x_pos, y_pos):
 
 
 if __name__ == '__main__':
-    day = 17
+    day = 20
     for i in range(35):
         print(i**2)
     grid = np.array([[0] * 20] * 20)
@@ -183,8 +211,8 @@ if __name__ == '__main__':
             for c in range(1,21):
                 for d in range(1,21):
                     test = (a,b,c,d)
-                    #grid = run_red_simulator(*test, day, grid) #clue 13 is not red
-                    #grid = run_orange_simulator(*test, day, grid)
+                    grid = run_red_simulator(*test, day, grid) #clue 13 is not red
+                    grid = run_orange_simulator(*test, day, grid)
                     grid = run_blue_simulator(*test, day, grid)
 
     ranked_list = sorted([(i, j) for i in range(1, 21) for j in range(1,21)], key=lambda x: grid[x[1]-1][x[0]-1], reverse=True)
